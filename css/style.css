@@ -222,7 +222,17 @@
       gap: 0.7rem;
     }
 
-    
+    #datosdepago .card .row > div {
+        min-width: 250px;
+      }
+      
+      @media (max-width: 576px) {
+        #datosdepago .row > div {
+          flex: 0 0 100%;
+          max-width: 100%;
+        }
+      }
+      
       
   }
   
