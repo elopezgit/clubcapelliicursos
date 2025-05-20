@@ -161,6 +161,40 @@
     color: var(--color-blanco);
     margin-right: 5px;
   }
+
+  .pago-card {
+    border-radius: 16px;
+    background-color: var(--color-gris);
+    border: none;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .dato-pago {
+    font-weight: 600;
+    color: #007bff;
+    font-size: 1rem;
+    word-break: break-word;
+  }
+  
+  .btn-copiar {
+    background-color: var(--color-naranja);
+    color: white;
+    font-weight: 500;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    min-width: 90px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-copiar:hover {
+    background-color: #e05518;
+  }
+  
+
+  
   
   /* =====================
      Responsive
@@ -187,5 +221,8 @@
       flex-direction: column;
       gap: 0.7rem;
     }
+
+    
+      
   }
   
