@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,6 +11,8 @@
 
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -18,7 +21,8 @@
   <link rel="stylesheet" href="css/style.css">
 
   <style>
-    html, body {
+    html,
+    body {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -46,10 +50,11 @@
       <a class="navbar-brand" href="index.html">
         <img src="assets/img/cc-circulo.png" alt="Club Capelli Logo" height="45">
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCapelli" aria-controls="navbarCapelli" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCapelli"
+        aria-controls="navbarCapelli" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-  
+
       <div class="collapse navbar-collapse" id="navbarCapelli">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
@@ -68,170 +73,206 @@
       </div>
     </div>
   </nav>
-  
+
 
   <!-- CONTENIDO -->
   <main>
 
     <section class="hero-video">
-        <video autoplay muted loop playsinline class="video-bg">
-          <source src="assets/video/intro-capelli.mp4" type="video/mp4">
-          Tu navegador no soporta videos HTML5.
-        </video>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <img src="assets/img/cc-circulo.png" alt="Club Capelli" style="height: 200px; margin-bottom: 20px;">
-          <h2 class="mb-3">Formate con los mejores!</h2>
-          <p>Conocé nuestros cursos</p>
-        </div>
-      </section>
-      
+      <video autoplay muted loop playsinline class="video-bg">
+        <source src="assets/video/intro-capelli.mp4" type="video/mp4">
+        Tu navegador no soporta videos HTML5.
+      </video>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <img src="assets/img/cc-circulo.png" alt="Club Capelli" style="height: 200px; margin-bottom: 20px;">
+        <h2 class="mb-3">Formate con los mejores!</h2>
+        <p>Conocé nuestros cursos</p>
+      </div>
+    </section>
 
+    <!-- BANNERS PUBLICITARIOS (SWIPER 3D) -->
+    <section class="banner-publicitario py-5">
+      <div class="container text-center">
+        <h3 class="mb-5 title-neon">Novedades y Promociones</h3>
+        <!-- Swiper -->
+        <div class="swiper mySwiperBanner">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="assets/img/novedades/novedad1.jpg" alt="Publicidad 1"></div>
+            <div class="swiper-slide"><img src="assets/img/novedades/novedad2.jpg" alt="Publicidad 2"></div>
+            <div class="swiper-slide"><img src="assets/img/novedades/novedad3.jpg" alt="Publicidad 3"></div>
+            <div class="swiper-slide"><img src="assets/img/novedades/novedad4.jpg" alt="Publicidad 4"></div>
+            <div class="swiper-slide"><img src="assets/img/novedades/novedad5.jpg" alt="Publicidad 5"></div>
+            <div class="swiper-slide"><img src="assets/img/novedades/novedad6.jpg" alt="Publicidad 6"></div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+    </section>
 
     <!-- CURSOS -->
-<section id="cursos" class="container py-5">
-    <div class="row g-4">
-  
-      <!-- CURSO PELUQUERÍA -->
-      <div class="col-md-4">
-        <div class="card card-curso h-100">
-          <img src="assets/img/cursos/cursopeluqueria.png" alt="Curso de Peluquería">
-          <div class="card-body">
-            <h5 class="card-title">Curso de Peluquería Integral.</h5>
-            <p class="card-text">Aprendé técnicas modernas en corte, color y peinado. Incluye certificación oficial. Modalidad presencial.</p>
-            <a href="curso-peluqueria.html" class="btn btn-ver-mas">Ver más</a>
+    <section id="cursos" class="container py-5">
+      <div class="row g-4">
+
+        <!-- CURSO PELUQUERÍA -->
+        <div class="col-md-4">
+          <div class="card card-curso h-100">
+            <img src="assets/img/cursos/cursopeluqueria.png" alt="Curso de Peluquería">
+            <div class="card-body">
+              <h5 class="card-title">Curso de Peluquería Integral.</h5>
+              <p class="card-text">Aprendé técnicas modernas en corte, color y peinado. Incluye certificación oficial.
+                Modalidad presencial.</p>
+              <a href="curso-peluqueria.html" class="btn btn-ver-mas">Ver más</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- CURSO BARBERÍA -->
+        <div class="col-md-4">
+          <div class="card card-curso h-100">
+            <img src="assets/img/cursos/cursobarberia.png" alt="Curso de Barbería Clásica">
+            <div class="card-body">
+              <h5 class="card-title">Curso de Barbería Clásica</h5>
+              <p class="card-text">Domina técnicas de afeitado, fades y estilos masculinos. Curso intensivo con
+                prácticas reales y certificado final.</p>
+              <a href="curso-barberia.html" class="btn btn-ver-mas">Ver más</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- CURSO MANICURA -->
+        <div class="col-md-4">
+          <div class="card card-curso h-100">
+            <img src="assets/img/cursos/cursomanicura.png" alt="Curso de Manicura Integral">
+            <div class="card-body">
+              <h5 class="card-title">Curso de Manicura</h5>
+              <p class="card-text">Aprendé esculpido, esmaltado, diseño y cuidado de uñas. Ideal para emprendedoras.</p>
+              <a href="curso-manicura.html" class="btn btn-ver-mas">Ver más</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- CURSO MAESTRÍA EN MAQUILLAJE -->
+        <div class="col-md-4">
+          <div class="card card-curso h-100">
+            <img src="assets/img/cursos/cursomaquillaje.png" alt="Curso de Maestría en Maquillaje">
+            <div class="card-body">
+              <h5 class="card-title">Curso de Maestría en Maquillaje</h5>
+              <p class="card-text">Formación avanzada en técnicas profesionales de maquillaje. Sede: Yerba Buena.</p>
+              <a href="curso-maquillaje.html" class="btn btn-ver-mas">Ver más</a>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- CURSO especializacion pestanias y cejas -->
+        <div class="col-md-4">
+          <div class="card card-curso h-100">
+            <img src="assets/img/cursos/cursopestania.png" alt="Curso de Especialización de Pestañas y Cejas">
+            <div class="card-body">
+              <h5 class="card-title">Curso de Especialización de Pestañas y Cejas</h5>
+              <p class="card-text">Aprendé las técnicas más buscadas del mercado y convertite en una experta en diseño
+                de mirada.</p>
+              <a href="curso-pestaniascejas.html" class="btn btn-ver-mas">Ver más</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- CURSO Tratamientos Capilares -->
+        <div class="col-md-4">
+          <div class="card card-curso h-100">
+            <img src="assets/img/cursos/cursotratamientocapilar.png" alt="Curso de Tratamientos Capilares" style="object-fit: contain; padding: 10px; background: rgba(0,0,0,0.2);">
+            <div class="card-body">
+              <h5 class="card-title">Curso de Tratamientos Capilares</h5>
+              <p class="card-text">Especializate en salud capilar y recuperación del cabello con las mejores técnicas
+                del mercado.</p>
+              <a href="curso-tratamientoscapilares.html" class="btn btn-ver-mas">Ver más</a>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+    </section>
+
+
+
+    <!-- DATOS PARA PAGO -->
+    <section id="datosdepago" class="container my-5">
+      <div class="card pago-card shadow-sm p-4">
+        <h3 class="mb-4 text-center"><i class="fas fa-credit-card me-2"></i>Datos para Pago</h3>
+
+        <p class="text-muted mb-4 text-center" style="font-size: 0.95rem;">
+          📌 Al presionar “Copiar Alias” o “Copiar CVU”, el dato se guarda automáticamente en tu celular.
+          Luego, solo tenés que abrir tu app de billetera o banco, pegar el dato y completar el pago. Así evitás
+          errores.
+        </p>
+
+        <div class="text-center mb-4">
+          <p class="fw-bold mb-1">Cesar Ezequiel Salas Cabral</p>
+          <p class="mb-0">CUIT/CUIL: 20-31588156-1</p>
+          <p class="mb-2">Mercado Pago</p>
+        </div>
+
+        <div class="row g-3 justify-content-center">
+          <!-- Alias -->
+          <div class="col-md-6">
+            <div class="bg-white rounded p-3 text-center h-100 border">
+              <h5 class="fw-semibold mb-2">Alias</h5>
+              <p id="alias" class="dato-pago mb-2">clubcapelli.mp</p>
+              <button class="btn btn-copiar w-100" onclick="copiarTexto('alias')">Copiar Alias</button>
+            </div>
+          </div>
+
+          <!-- CVU -->
+          <div class="col-md-6">
+            <div class="bg-white rounded p-3 text-center h-100 border">
+              <h5 class="fw-semibold mb-2">CVU</h5>
+              <p id="cbu" class="dato-pago mb-2">0000003100098932239946</p>
+              <button class="btn btn-copiar w-100" onclick="copiarTexto('cbu')">Copiar CVU</button>
+            </div>
           </div>
         </div>
       </div>
-  
-      <!-- CURSO BARBERÍA -->
-      <div class="col-md-4">
-        <div class="card card-curso h-100">
-          <img src="assets/img/cursos/cursobarberia.png" alt="Curso de Barbería Clásica">
-          <div class="card-body">
-            <h5 class="card-title">Curso de Barbería Clásica</h5>
-            <p class="card-text">Domina técnicas de afeitado, fades y estilos masculinos. Curso intensivo con prácticas reales y certificado final.</p>
-            <a href="curso-barberia.html" class="btn btn-ver-mas">Ver más</a>
-          </div>
-        </div>
-      </div>
-  
-      <!-- CURSO MANICURA -->
-      <div class="col-md-4">
-        <div class="card card-curso h-100">
-          <img src="assets/img/cursos/cursomanicura.png" alt="Curso de Manicura Integral">
-          <div class="card-body">
-            <h5 class="card-title">Curso de Manicura</h5>
-            <p class="card-text">Aprendé esculpido, esmaltado, diseño y cuidado de uñas. Ideal para emprendedoras.</p>
-            <a href="curso-manicura.html" class="btn btn-ver-mas">Ver más</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- CURSO MAESTRÍA EN MAQUILLAJE -->
-    <div class="col-md-4">
-        <div class="card card-curso h-100">
-        <img src="assets/img/cursos/cursomaquillaje.png" alt="Curso de Maestría en Maquillaje">
-        <div class="card-body">
-            <h5 class="card-title">Curso de Maestría en Maquillaje</h5>
-            <p class="card-text">Formación avanzada en técnicas profesionales de maquillaje. Ideal para quienes buscan perfeccionarse.</p>
-            <a href="curso-maquillaje.html" class="btn btn-ver-mas">Ver más</a>
-        </div>
-        </div>
-    </div>
+    </section>
 
 
 
-    <!-- CURSO especializacion pestanias y cejas -->
-    <div class="col-md-4">
-        <div class="card card-curso h-100">
-        <img src="assets/img/cursos/cursopestania.png" alt="Curso de Maestría en Maquillaje">
-        <div class="card-body">
-            <h5 class="card-title">Curso de especializacion de Pestañas y Cejas</h5>
-            <p class="card-text">Aprendé las técnicas más buscadas del mercado y convertite en una experta en diseño de mirada.</p>
-            <a href="curso-pestaniascejas.html" class="btn btn-ver-mas">Ver más</a>
-        </div>
-        </div>
-    </div>
-
-  
-  
-    </div>
-  </section>
 
 
 
-  <!-- DATOS PARA PAGO -->
-  <section id="datosdepago" class="container my-5">
-    <div class="card pago-card shadow-sm p-4">
-      <h3 class="mb-4 text-center"><i class="fas fa-credit-card me-2"></i>Datos para Pago</h3>
-  
-      <p class="text-muted mb-4 text-center" style="font-size: 0.95rem;">
-        📌 Al presionar “Copiar Alias” o “Copiar CVU”, el dato se guarda automáticamente en tu celular.
-        Luego, solo tenés que abrir tu app de billetera o banco, pegar el dato y completar el pago. Así evitás errores.
-      </p>
-  
-      <div class="text-center mb-4">
-        <p class="fw-bold mb-1">Cesar Ezequiel Salas Cabral</p>
-        <p class="mb-0">CUIT/CUIL: 20-31588156-1</p>
-        <p class="mb-2">Mercado Pago</p>
-      </div>
-  
-      <div class="row g-3 justify-content-center">
-        <!-- Alias -->
-        <div class="col-md-6">
-          <div class="bg-white rounded p-3 text-center h-100 border">
-            <h5 class="fw-semibold mb-2">Alias</h5>
-            <p id="alias" class="dato-pago mb-2">clubcapelli.mp</p>
-            <button class="btn btn-copiar w-100" onclick="copiarTexto('alias')">Copiar Alias</button>
-          </div>
-        </div>
-  
-        <!-- CVU -->
-        <div class="col-md-6">
-          <div class="bg-white rounded p-3 text-center h-100 border">
-            <h5 class="fw-semibold mb-2">CVU</h5>
-            <p id="cbu" class="dato-pago mb-2">0000003100098932239946</p>
-            <button class="btn btn-copiar w-100" onclick="copiarTexto('cbu')">Copiar CVU</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  
-  
-  
-
-
-  
   </main>
 
   <!-- FOOTER MEJORADO -->
-<footer class="bg-dark text-white py-5" id="contacto">
+  <footer class="bg-dark text-white py-5" id="contacto">
     <div class="container text-center text-md-start">
       <div class="row g-4 justify-content-center">
-  
+
         <!-- Columna 1: Marca -->
         <div class="col-md-4">
           <p class="mb-2 fw-bold">&copy; 2025 Club Capelli</p>
           <p class="small">Especialistas en belleza y formación profesional.</p>
         </div>
-  
+
         <!-- Columna 2: Instagram -->
         <div class="col-md-4">
           <p class="fw-semibold mb-1"><i class="fab fa-instagram me-2"></i> Instagram</p>
           <p class="mb-1">
-            <a href="https://www.instagram.com/clubcapelliyerbabuena" target="_blank" class="text-white text-decoration-none">
+            <a href="https://www.instagram.com/clubcapelliyerbabuena" target="_blank"
+              class="text-white text-decoration-none">
               @clubcapelliyerbabuena
             </a>
           </p>
           <p>
-            <a href="https://www.instagram.com/clubcapelli.sanjuan790" target="_blank" class="text-white text-decoration-none">
+            <a href="https://www.instagram.com/clubcapelli.sanjuan790" target="_blank"
+              class="text-white text-decoration-none">
               @clubcapelli.sanjuan790
             </a>
           </p>
         </div>
-  
+
         <!-- Columna 3: WhatsApp y dirección -->
         <div class="col-md-4">
           <p class="fw-semibold mb-1"><i class="fab fa-whatsapp me-2"></i> WhatsApp</p>
@@ -247,23 +288,28 @@
           </p>
           <p class="mb-0"><i class="fas fa-map-marker-alt me-2"></i> San Juan 790, Tucumán</p>
         </div>
-  
+
       </div>
     </div>
   </footer>
-  
+
+
+  <!-- WHATSAPP FLOTANTE -->
+  <a href="https://wa.me/5493814647103" class="btn-whatsapp-flotante" target="_blank"
+    aria-label="Contactar por WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
 
   <!-- JS -->
-
-  <script>
-    function copiarTexto(id) {
-        var texto = document.getElementById(id).innerText;
-        navigator.clipboard.writeText(texto);
-        alert(id.toUpperCase() + " Dato copiado con exito!");
-    }
-</script>
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <!-- Vanilla Tilt -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script src="js/main.js"></script>
 </body>
+
 </html>

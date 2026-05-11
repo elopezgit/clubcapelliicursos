@@ -1,238 +1,399 @@
 /* =====================
-   Club Capelli - CSS Base
+   CLUB CAPELLI - DARK NEON THEME
    ===================== */
-
-/* 🎨 Paleta */
 :root {
-    --color-naranja: #f26522;
-    --color-blanco: #ffffff;
-    --color-negro: #212529;
-    --color-gris: #f5f5f5;
-  }
-  
-  /* Base general */
-  html, body {
-    font-family: 'Poppins', sans-serif;
-    background-color: var(--color-blanco);
-    color: var(--color-negro);
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* =====================
-     Header - Navbar
-     ===================== */
-  .navbar-brand img {
-    height: 45px;
-  }
-  
-  /* =====================
-     HERO CON VIDEO
-     ===================== */
-  .hero-video {
-    position: relative;
-    height: 360px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .video-bg {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    transform: translate(-50%, -50%);
-    object-fit: cover;
-    z-index: 1;
-  }
-  
-  .hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(242, 101, 34, 0.6);
-    z-index: 2;
-  }
-  
-  .hero-content {
-    position: relative;
-    z-index: 3;
-    color: var(--color-blanco);
-    text-align: center;
-  }
-  
-  /* =====================
-     CARDS DE CURSOS
-     ===================== */
-  .card-curso {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    border: none;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background-color: var(--color-blanco);
-    min-height: 100%;
-  }
-  
-  .card-curso:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-  }
-  
-  .card-curso img {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: contain;
-    object-position: center;
-    background-color: var(--color-blanco);
-    padding: 8px;
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
-  }
-  
-  .card-curso .card-body {
-    flex-grow: 1;
-    padding: 1.2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  .card-curso .card-title {
-    font-weight: 700;
-    color: var(--color-negro);
-    margin-bottom: 0.5rem;
-  }
-  
-  .card-curso .card-text {
-    font-size: 0.95rem;
-    color: #6c757d;
-    flex-grow: 1;
-    margin-bottom: 1.2rem;
-  }
-  
-  /* =====================
-     Botón
-     ===================== */
-  .btn-ver-mas {
-    background-color: var(--color-naranja);
-    color: var(--color-blanco);
-    border: none;
-    transition: background-color 0.3s ease;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    width: fit-content;
-  }
-  
-  .btn-ver-mas:hover {
-    background-color: #e05518;
-  }
-  
-  /* =====================
-     FOOTER
-     ===================== */
-  footer {
-    background-color: var(--color-negro);
-    color: var(--color-blanco);
-    text-align: center;
-    padding: 30px 20px;
-    font-size: 0.95rem;
-  }
-  
-  footer a {
-    color: var(--color-blanco);
-    text-decoration: none;
-  }
-  
-  footer a:hover {
-    text-decoration: underline;
-  }
-  
-  footer i {
-    color: var(--color-blanco);
-    margin-right: 5px;
-  }
+  --color-naranja: #f26522;
+  --color-naranja-glow: rgba(242, 101, 34, 0.6);
+  --color-negro: #0a0a0a;
+  --color-gris-oscuro: #161616;
+  --color-blanco: #f5f5f5;
+  --fuente-principal: 'Poppins', sans-serif;
+}
 
-  .pago-card {
-    border-radius: 16px;
-    background-color: var(--color-gris);
-    border: none;
-    max-width: 600px;
-    margin: auto;
-  }
-  
-  .dato-pago {
-    font-weight: 600;
-    color: #007bff;
-    font-size: 1rem;
-    word-break: break-word;
-  }
-  
-  .btn-copiar {
-    background-color: var(--color-naranja);
-    color: white;
-    font-weight: 500;
-    border: none;
-    padding: 6px 16px;
-    border-radius: 6px;
-    min-width: 90px;
-    text-align: center;
-    transition: background-color 0.3s ease;
-  }
-  
-  .btn-copiar:hover {
-    background-color: #e05518;
-  }
-  
+html {
+  scroll-behavior: smooth;
+}
 
-  
-  
-  /* =====================
-     Responsive
-     ===================== */
-  @media (max-width: 768px) {
-    .hero-video {
-      height: 360px;
-    }
-  
-    .hero-content h2 {
-      font-size: 1.6rem;
-    }
-  
-    .hero-content p {
-      font-size: 1rem;
-    }
-  
-    .card-curso img {
-      aspect-ratio: 4 / 3;
-      height: auto;
-    }
-  
-    footer .d-flex {
-      flex-direction: column;
-      gap: 0.7rem;
-    }
+body {
+  font-family: var(--fuente-principal);
+  background-color: var(--color-negro);
+  color: var(--color-blanco);
+  overflow-x: hidden;
+}
 
-    #datosdepago .card .row > div {
-        min-width: 250px;
-      }
-      
-      @media (max-width: 576px) {
-        #datosdepago .row > div {
-          flex: 0 0 100%;
-          max-width: 100%;
-        }
-      }
-      
-      
+/* =====================
+   NAVBAR
+   ===================== */
+.navbar {
+  background: rgba(10, 10, 10, 0.85) !important;
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.navbar-brand img {
+  filter: drop-shadow(0 0 10px var(--color-naranja-glow));
+}
+
+.nav-link {
+  color: var(--color-blanco) !important;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--color-naranja) !important;
+  text-shadow: 0 0 8px var(--color-naranja-glow);
+}
+
+/* =====================
+   HERO VIDEO SECTION
+   ===================== */
+.hero-video {
+  position: relative;
+  height: 85vh;
+  min-height: 600px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Dark neon cut */
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+  border-bottom: 2px solid var(--color-naranja);
+  box-shadow: 0 10px 40px var(--color-naranja-glow);
+}
+
+.video-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  z-index: 1;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.95) 100%);
+  z-index: 2;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  color: var(--color-blanco);
+  text-align: center;
+  padding: 0 20px;
+}
+
+.hero-content img {
+  filter: drop-shadow(0 0 25px var(--color-naranja-glow));
+  animation: float 6s ease-in-out infinite;
+}
+
+.hero-content h2 {
+  font-size: 3rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, #fff, var(--color-naranja));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 15px rgba(242, 101, 34, 0.4));
+}
+
+@media (min-width: 768px) {
+  .hero-content h2 {
+    font-size: 4rem;
   }
-  
+}
+
+.hero-content p {
+  font-size: 1.5rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+  opacity: 0.9;
+}
+
+/* =====================
+   BANNERS PUBLICITARIOS (SWIPER)
+   ===================== */
+.banner-publicitario {
+  background: linear-gradient(180deg, var(--color-negro) 0%, var(--color-gris-oscuro) 100%);
+  margin-top: -60px; /* Pull up under hero */
+  position: relative;
+  z-index: 10;
+  padding-bottom: 4rem;
+}
+
+.title-neon {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-blanco);
+  text-shadow: 0 0 15px var(--color-naranja-glow);
+  position: relative;
+  display: inline-block;
+  margin-top: 2rem;
+}
+
+.title-neon::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background-color: var(--color-naranja);
+  box-shadow: 0 0 10px var(--color-naranja);
+}
+
+.swiper {
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 50px;
+}
+
+.swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 300px;
+  height: 300px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+@media (min-width: 768px) {
+  .swiper-slide {
+    width: 450px;
+    height: 450px;
+  }
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.swiper-pagination-bullet {
+  background: var(--color-naranja) !important;
+  box-shadow: 0 0 10px var(--color-naranja-glow);
+}
+
+/* =====================
+   CARDS DE CURSOS (BENTO GRID 3D)
+   ===================== */
+#cursos {
+  position: relative;
+  z-index: 10;
+  background-color: var(--color-gris-oscuro);
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.card-curso {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  overflow: hidden;
+  color: var(--color-blanco);
+  transition: all 0.4s ease;
+  transform-style: preserve-3d;
+}
+
+/* Hover Effect via Vanilla-Tilt handles 3D, we handle Glow */
+.card-curso:hover {
+  border-color: var(--color-naranja);
+  box-shadow: 0 0 30px rgba(242, 101, 34, 0.2);
+}
+
+.card-curso img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-bottom: 2px solid transparent;
+  transition: all 0.4s ease;
+}
+
+.card-curso:hover img {
+  border-bottom: 2px solid var(--color-naranja);
+}
+
+.card-body {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-curso .card-title {
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: var(--color-blanco);
+}
+
+.card-curso .card-text {
+  font-weight: 300;
+  color: #aaa;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+/* =====================
+   BOTONES
+   ===================== */
+.btn-ver-mas {
+  background: transparent;
+  color: var(--color-naranja);
+  border: 2px solid var(--color-naranja);
+  border-radius: 30px;
+  padding: 10px 25px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 1.5rem;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+  box-shadow: 0 0 15px transparent;
+}
+
+.btn-ver-mas:hover {
+  background: var(--color-naranja);
+  color: var(--color-blanco);
+  box-shadow: 0 0 20px var(--color-naranja-glow);
+  transform: translateY(-3px);
+}
+
+/* =====================
+   DATOS PAGO & EXTRAS
+   ===================== */
+.pago-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  color: var(--color-blanco);
+}
+
+.bg-white.rounded.p-3 {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  color: var(--color-blanco);
+}
+
+.dato-pago {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--color-naranja);
+  text-shadow: 0 0 10px rgba(242, 101, 34, 0.3);
+}
+
+.btn-copiar {
+  background: var(--color-naranja);
+  color: var(--color-blanco);
+  border: none;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 10px;
+  transition: all 0.3s ease;
+}
+
+.btn-copiar:hover {
+  background: #ff7a3b;
+  box-shadow: 0 0 15px var(--color-naranja-glow);
+  transform: scale(1.02);
+}
+
+/* =====================
+   FOOTER
+   ===================== */
+footer {
+  background: #050505 !important;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+/* =====================
+   WHATSAPP FLOTANTE
+   ===================== */
+.btn-whatsapp-flotante {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #25d366;
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 35px;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.5);
+  z-index: 9999;
+  transition: all 0.3s ease;
+  animation: latido 2s infinite;
+  text-decoration: none;
+}
+
+.btn-whatsapp-flotante:hover {
+  background-color: #128c7e;
+  color: white;
+  transform: scale(1.1);
+  animation: none;
+}
+
+@keyframes latido {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0); }
+}
+
+/* =====================
+   PÁGINAS INTERNAS (Detalle Curso)
+   ===================== */
+.hero {
+  background-color: var(--color-negro);
+  color: var(--color-blanco);
+  padding: 4rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -50px;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background-color: var(--color-gris-oscuro);
+  transform: skewY(-2deg);
+}
+
+.hero h2 {
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--color-naranja);
+  text-shadow: 0 0 10px var(--color-naranja-glow);
+}
