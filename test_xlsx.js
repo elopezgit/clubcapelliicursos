@@ -1,0 +1,1 @@
+const XLSX = require('xlsx'); const fs = require('fs'); const csvText = fs.readFileSync('temp.csv', 'utf8'); const workbook = XLSX.read(csvText, { type: 'string' }); const worksheet = workbook.Sheets[workbook.SheetNames[0]]; const jsonData = XLSX.utils.sheet_to_json(worksheet); console.log(jsonData.length, jsonData[0]);

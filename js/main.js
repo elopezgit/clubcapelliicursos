@@ -1,5 +1,10 @@
 // Club Capelli - Premium Animations
 
+// Client-side SEO routing redirection to clean /admin/ folder
+if (window.location.hash.includes('admin') || window.location.search.includes('admin') || window.location.pathname.endsWith('/admin')) {
+    window.location.href = window.location.pathname.replace('index.html', '').replace(/\/$/, '') + '/admin/';
+}
+
 // GSAP ScrollTrigger Setup
 gsap.registerPlugin(ScrollTrigger);
 

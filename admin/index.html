@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Club Capelli | Panel Administrativo BI</title>
+
+  <!-- HTML Base Path mapping to resolve all root assets from inside the subfolder /admin -->
+  <base href="../" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Font Awesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+  <!-- Custom Styles (including SaaS & Admin Rules) -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <!-- LOADING OVERLAY -->
+  <div id="loading-overlay" class="d-flex flex-column align-items-center justify-content-center" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #ffffff; z-index: 9999; transition: opacity 0.5s ease;">
+    <div class="text-center">
+      <img src="assets/img/cc-circulo.png" alt="Club Capelli" height="90" class="animate-pulse mb-3" />
+      <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <h5 class="fw-bold mt-3 text-dark">Sincronizando con Google Sheets...</h5>
+      <p class="text-muted small">Cargando datos reales del formulario de inscripción...</p>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       1. SCREEN DE LOGIN ADMINISTRATIVO
+       ========================================== -->
+  <div id="login-container" class="login-body">
+    <div class="login-card">
+      <div class="text-center">
+        <img src="assets/img/cc-circulo.png" alt="Club Capelli" height="75" />
+        <h4 class="fw-bold mt-2 mb-1">Club Capelli</h4>
+        <p class="text-muted small mb-4">Portal de Control Ejecutivo & BI</p>
+      </div>
+
+      <div id="login-alert" class="alert alert-danger d-none" role="alert">
+        Credenciales incorrectas. Intente nuevamente.
+      </div>
+
+      <form id="login-form">
+        <div class="mb-3">
+          <label for="username" class="form-label fw-semibold">Usuario</label>
+          <input type="text" class="form-control" id="username" placeholder="Ingrese su usuario" required />
+        </div>
+        <div class="mb-4">
+          <label for="password" class="form-label fw-semibold">Contraseña</label>
+          <input type="password" class="form-control" id="password" placeholder="••••••••" required />
+        </div>
+        <button type="submit" class="btn btn-login">
+          Iniciar Sesión <i class="fas fa-sign-in-alt ms-2"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       2. PANEL PRINCIPAL DEL DASHBOARD (BI)
+       ========================================== -->
+  <div id="dashboard-container" class="admin-container" style="display: none;">
+
+    <!-- SIDEBAR LATERAL -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <img src="assets/img/cc-circulo.png" alt="Logo" height="36" />
+        <div>
+          <span class="d-block fw-bold text-white lh-sm">Club Capelli</span>
+          <span class="text-muted small" style="font-size: 0.72rem;">Business Intelligence</span>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="menu-item active" data-section="dashboard">
+          <a href="#"><i class="fas fa-chart-pie"></i> Dashboard</a>
+        </li>
+        <li class="menu-item" data-section="alumnos">
+          <a href="#"><i class="fas fa-graduation-cap"></i> Alumnos</a>
+        </li>
+        <li class="menu-item" data-section="cursos">
+          <a href="#"><i class="fas fa-book-open"></i> Cursos</a>
+        </li>
+        <li class="menu-item" data-section="suscripciones">
+          <a href="#"><i class="fas fa-sync-alt"></i> Suscripciones</a>
+        </li>
+        <li class="menu-item" data-section="ingresos">
+          <a href="#"><i class="fas fa-wallet"></i> Ingresos</a>
+        </li>
+        <li class="menu-item" data-section="reportes">
+          <a href="#"><i class="fas fa-file-invoice-dollar"></i> Reportes</a>
+        </li>
+        <li class="menu-item" data-section="configuracion">
+          <a href="#"><i class="fas fa-cog"></i> Configuración</a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <button class="btn btn-logout" id="btn-logout">
+          Cerrar Sesión <i class="fas fa-sign-out-alt"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ÁREA DE CONTENIDO PRINCIPAL -->
+    <main class="admin-main">
+
+      <!-- NAVBAR SUPERIOR -->
+      <header class="admin-navbar">
+        <div>
+          <h4 class="fw-bold m-0" id="section-title">Dashboard Ejecutivo</h4>
+          <span class="text-muted small" id="section-subtitle">Visualización estratégica del estado comercial</span>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <span class="badge bg-warning text-dark p-2" id="connection-status-badge">
+            <i class="fas fa-sync fa-spin me-1"></i> Conectando...
+          </span>
+          <button class="btn btn-sm btn-outline-secondary p-1 px-2 animate-pulse" id="btn-sync-sheets" title="Sincronizar con Google Sheets">
+            <i class="fas fa-sync-alt"></i>
+          </button>
+          <span class="badge bg-secondary p-2" id="navbar-date-badge"><i class="fas fa-calendar-alt me-1"></i> 30 Mayo, 2026</span>
+          <div class="d-flex align-items-center gap-2">
+            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; font-weight: 700;">
+              C
+            </div>
+            <div>
+              <span class="d-block fw-bold text-dark lh-sm">Cesar Salas</span>
+              <span class="text-muted small" style="font-size: 0.72rem;">Administrador</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- PANELES DE CONTENIDO DINÁMICO -->
+      <div class="admin-content-panel">
+
+        <!-- ========================================
+             SECCIÓN A: DASHBOARD GENERAL
+             ======================================== -->
+        <section id="section-dashboard" class="dashboard-view-panel">
+          <!-- KPI Cards -->
+          <div class="kpi-grid">
+            <div class="kpi-card sales">
+              <div class="kpi-info">
+                <h6>Suscripciones Activas</h6>
+                <h3 id="kpi-subs-activas">0</h3>
+                <span class="kpi-trend trend-up" id="kpi-subs-trend">
+                  <i class="fas fa-arrow-up"></i> +12.4% este mes
+                </span>
+              </div>
+              <div class="kpi-icon"><i class="fas fa-users"></i></div>
+            </div>
+
+            <div class="kpi-card subs">
+              <div class="kpi-info">
+                <h6>Total Alumnos</h6>
+                <h3 id="kpi-total-alumnos">0</h3>
+                <span class="kpi-trend trend-up">
+                  <i class="fas fa-arrow-up"></i> +8.5% esta semana
+                </span>
+              </div>
+              <div class="kpi-icon"><i class="fas fa-graduation-cap"></i></div>
+            </div>
+
+            <div class="kpi-card revenue">
+              <div class="kpi-info">
+                <h6>Ingresos Mensuales</h6>
+                <h3 id="kpi-ingresos-mensuales">$0</h3>
+                <span class="kpi-trend trend-up" id="kpi-rev-trend">
+                  <i class="fas fa-arrow-up"></i> +15.3% vs abril
+                </span>
+              </div>
+              <div class="kpi-icon"><i class="fas fa-wallet"></i></div>
+            </div>
+
+            <div class="kpi-card activity">
+              <div class="kpi-info">
+                <h6>Ticket Promedio</h6>
+                <h3 id="kpi-ticket-promedio">$0</h3>
+                <span class="kpi-trend trend-up">
+                  <i class="fas fa-chart-line"></i> Alto Valor
+                </span>
+              </div>
+              <div class="kpi-icon"><i class="fas fa-award"></i></div>
+            </div>
+          </div>
+
+
+
+          <!-- Gráficos Principales -->
+          <div class="dashboard-grid">
+            <div class="panel-card">
+              <div class="panel-header">
+                <h5><i class="fas fa-chart-line text-primary"></i> Evolución Mensual de Ingresos</h5>
+                <span class="text-muted small">Últimos 6 meses</span>
+              </div>
+              <div style="position: relative; height: 300px;">
+                <canvas id="chart-ingresos"></canvas>
+              </div>
+            </div>
+
+            <div class="panel-card">
+              <div class="panel-header">
+                <h5><i class="fas fa-chart-bar text-info"></i> Crecimiento de Suscriptores</h5>
+                <span class="text-muted small">Altas mensuales</span>
+              </div>
+              <div style="position: relative; height: 300px;">
+                <canvas id="chart-suscripciones"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-4">
+            <!-- Gráfico Circular -->
+            <div class="col-md-5">
+              <div class="panel-card h-100">
+                <div class="panel-header">
+                  <h5><i class="fas fa-chart-pie text-success"></i> Distribución de Cursos</h5>
+                  <span class="text-muted small">Alumnos por disciplina</span>
+                </div>
+                <div style="position: relative; height: 280px; display: flex; align-items: center; justify-content: center;">
+                  <canvas id="chart-cursos-pie"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Últimos Registrados -->
+            <div class="col-md-7">
+              <div class="panel-card h-100">
+                <div class="panel-header">
+                  <h5><i class="fas fa-history text-secondary"></i> Últimos Alumnos Registrados</h5>
+                  <button class="btn btn-sm btn-outline-primary" onclick="switchSection('alumnos')">Ver Todos</button>
+                </div>
+                <div class="table-responsive">
+                  <table class="saas-table">
+                    <thead>
+                      <tr>
+                        <th>Alumno</th>
+                        <th>Sede</th>
+                        <th>Curso</th>
+                        <th>Registro</th>
+                      </tr>
+                    </thead>
+                    <tbody id="table-recent-students">
+                      <!-- Loaded via JS -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ========================================
+             SECCIÓN B: ALUMNOS
+             ======================================== -->
+        <section id="section-alumnos" class="dashboard-view-panel" style="display: none;">
+          <div class="panel-card mb-4">
+            <div class="row g-3 align-items-center">
+              <div class="col-md-4">
+                <div class="input-group">
+                  <span class="input-group-text bg-white border-end-0"><i class="fas fa-search text-muted"></i></span>
+                  <input type="text" id="alumno-search" class="form-control border-start-0" placeholder="Buscar por nombre o email..." />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <select id="alumno-filter-status" class="form-select">
+                  <option value="todos">Todos los Estados</option>
+                  <option value="activos">Activos</option>
+                  <option value="inactivos">Inactivos</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <select id="alumno-filter-sede" class="form-select">
+                  <option value="todas">Todas las Sedes</option>
+                  <option value="Yerba Buena">Yerba Buena</option>
+                  <option value="San Juan 790">San Juan 790</option>
+                </select>
+              </div>
+              <div class="col-md-2 text-end">
+                <button class="btn btn-primary w-100" id="btn-export-alumnos">
+                  <i class="fas fa-download me-1"></i> Exportar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="table-responsive" style="max-height: 550px; overflow-y: auto;">
+              <table class="saas-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Sede</th>
+                    <th>Curso Inscrito</th>
+                    <th>Fecha Alta</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody id="table-alumnos-list">
+                  <!-- Loaded via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ========================================
+             SECCIÓN C: CURSOS
+             ======================================== -->
+        <section id="section-cursos" class="dashboard-view-panel" style="display: none;">
+          <div class="row g-4 mb-4" id="cursos-performance-cards">
+            <!-- Loaded dynamically with key stats of best/worst courses -->
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-header">
+              <h5><i class="fas fa-graduation-cap text-primary"></i> Rendimiento Detallado por Curso</h5>
+              <span class="text-muted small">Métricas comerciales completas</span>
+            </div>
+            <div class="table-responsive">
+              <table class="saas-table">
+                <thead>
+                  <tr>
+                    <th>Curso</th>
+                    <th>Precio Matrícula</th>
+                    <th>Vistas Catálogo</th>
+                    <th>Ventas Realizadas</th>
+                    <th>Facturación Matrícula</th>
+                    <th>Alumnos Activos</th>
+                    <th>Calificación Promedio</th>
+                    <th>Tasa de Conversión</th>
+                  </tr>
+                </thead>
+                <tbody id="table-cursos-list">
+                  <!-- Loaded via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ========================================
+             SECCIÓN D: SUSCRIPCIONES
+             ======================================== -->
+        <section id="section-suscripciones" class="dashboard-view-panel" style="display: none;">
+          <div class="row g-4 mb-4">
+            <div class="col-md-4">
+              <div class="panel-card text-center py-4 h-100 border-start border-primary border-4">
+                <h6 class="text-muted uppercase">Suscripciones Activas</h6>
+                <h2 class="fw-bold mt-2 mb-1" id="sub-active-cnt">0</h2>
+                <p class="text-success small m-0"><i class="fas fa-check-circle"></i> Miembros con acceso habilitado</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="panel-card text-center py-4 h-100 border-start border-danger border-4">
+                <h6 class="text-muted uppercase">Suscripciones Vencidas</h6>
+                <h2 class="fw-bold mt-2 mb-1" id="sub-expired-cnt">0</h2>
+                <p class="text-danger small m-0"><i class="fas fa-times-circle"></i> Acceso denegado / Requiere pago</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="panel-card text-center py-4 h-100 border-start border-success border-4">
+                <h6 class="text-muted uppercase">Tasa de Renovación</h6>
+                <h2 class="fw-bold mt-2 mb-1" id="sub-retention-rate">0%</h2>
+                <p class="text-muted small m-0">Fidelidad mensual de alumnos</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-header">
+              <h5><i class="fas fa-list text-primary"></i> Registro de Membresías Mensuales</h5>
+              <div class="d-flex gap-2">
+                <input type="text" id="sub-search" class="form-control form-control-sm" placeholder="Buscar alumno..." style="width: 200px;" />
+                <select id="sub-filter-status" class="form-select form-select-sm" style="width: 150px;">
+                  <option value="todos">Todos</option>
+                  <option value="Activa">Activa</option>
+                  <option value="Vencida">Vencida</option>
+                </select>
+              </div>
+            </div>
+            <div class="table-responsive" style="max-height: 450px; overflow-y: auto;">
+              <table class="saas-table">
+                <thead>
+                  <tr>
+                    <th>Alumno</th>
+                    <th>Curso Asociado</th>
+                    <th>Monto Cuota</th>
+                    <th>Fecha Inicio</th>
+                    <th>Próximo Vencimiento</th>
+                    <th>Estado Acceso</th>
+                  </tr>
+                </thead>
+                <tbody id="table-suscripciones-list">
+                  <!-- Loaded via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ========================================
+             SECCIÓN E: INGRESOS Y FACTURACIÓN
+             ======================================== -->
+        <section id="section-ingresos" class="dashboard-view-panel" style="display: none;">
+          <div class="row g-4 mb-4">
+            <div class="col-md-3">
+              <div class="panel-card text-center py-3">
+                <h6 class="text-muted">Facturación Histórica</h6>
+                <h3 class="fw-bold text-dark mt-2" id="ingresos-total-hist">--</h3>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="panel-card text-center py-3">
+                <h6 class="text-muted">Ventas de Cursos</h6>
+                <h3 class="fw-bold text-primary mt-2" id="ingresos-total-cursos">--</h3>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="panel-card text-center py-3">
+                <h6 class="text-muted">Ingresos por Cuotas</h6>
+                <h3 class="fw-bold text-success mt-2" id="ingresos-total-subs">--</h3>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="panel-card text-center py-3">
+                <h6 class="text-muted">Promedio por Alumno</h6>
+                <h3 class="fw-bold text-info mt-2" id="ingresos-prom-alumno">--</h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-header">
+              <h5><i class="fas fa-file-invoice-dollar text-primary"></i> Historial Contable Completo</h5>
+              <div class="d-flex gap-2">
+                <select id="ingresos-filter-tipo" class="form-select form-select-sm" style="width: 180px;">
+                  <option value="todos">Todos los Ingresos</option>
+                  <option value="Curso">Sólo Inscripción Curso</option>
+                  <option value="Suscripción">Sólo Cuotas Suscripción</option>
+                </select>
+              </div>
+            </div>
+            <div class="table-responsive" style="max-height: 480px; overflow-y: auto;">
+              <table class="saas-table">
+                <thead>
+                  <tr>
+                    <th>ID Transacción</th>
+                    <th>Alumno</th>
+                    <th>Concepto de Pago</th>
+                    <th>Monto Recibido</th>
+                    <th>Fecha Cobro</th>
+                    <th>Tipo</th>
+                  </tr>
+                </thead>
+                <tbody id="table-ingresos-list">
+                  <!-- Loaded via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ========================================
+             SECCIÓN F: CENTRO DE REPORTES
+             ======================================== -->
+        <section id="section-reportes" class="dashboard-view-panel" style="display: none;">
+          <div class="row g-4">
+            <div class="col-md-4">
+              <div class="panel-card h-100">
+                <h5 class="fw-bold mb-4 text-primary"><i class="fas fa-sliders-h me-2"></i> Configurar Exportación</h5>
+                <form id="report-form">
+                  <div class="mb-3">
+                    <label class="form-label fw-semibold">1. Seleccionar Reporte</label>
+                    <select id="report-type" class="form-select">
+                      <option value="alumnos">Listado de Alumnos Completo</option>
+                      <option value="cursos">Rendimiento Comercial de Cursos</option>
+                      <option value="suscripciones">Estado de Suscripciones Activas/Vencidas</option>
+                      <option value="ingresos">Resumen de Facturación Contable</option>
+                      <option value="ejecutivo">Resumen Ejecutivo General (KPIs)</option>
+                    </select>
+                  </div>
+
+                  <div class="mb-4">
+                    <label class="form-label fw-semibold">2. Formato de Archivo</label>
+                    <div class="d-flex flex-column gap-2">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="report-format" id="fmt-pdf" value="pdf" checked />
+                        <label class="form-check-label fw-medium" for="fmt-pdf">
+                          <i class="far fa-file-pdf text-danger me-2"></i> Documento PDF (.pdf)
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="report-format" id="fmt-excel" value="excel" />
+                        <label class="form-check-label fw-medium" for="fmt-excel">
+                          <i class="far fa-file-excel text-success me-2"></i> Hoja de Cálculo Excel (.xlsx)
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="report-format" id="fmt-csv" value="csv" />
+                        <label class="form-check-label fw-medium" for="fmt-csv">
+                          <i class="far fa-file-alt text-primary me-2"></i> Texto Delimitado CSV (.csv)
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button type="button" class="btn btn-primary w-100 py-2 fw-bold" id="btn-generate-report">
+                    Generar y Descargar <i class="fas fa-file-download ms-2"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <div class="col-md-8">
+              <div class="panel-card h-100">
+                <h5 class="fw-bold mb-4"><i class="fas fa-file-alt text-secondary me-2"></i> Vista Previa del Reporte</h5>
+                <div class="bg-light rounded p-4 border" style="height: 380px; overflow-y: auto; font-family: monospace; font-size: 0.8rem; line-height: 1.4;">
+                  <div id="report-preview-text">
+                    Seleccione un tipo de reporte y presione "Generar" para ver una simulación estructural del documento o descargar su versión final.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ========================================
+             SECCIÓN G: CONFIGURACIÓN
+             ======================================== -->
+        <section id="section-configuracion" class="dashboard-view-panel" style="display: none;">
+          <div class="row g-4">
+            <div class="col-md-6">
+              <div class="panel-card">
+                <h5 class="fw-bold mb-3 text-primary"><i class="fas fa-lock me-2"></i> Seguridad & Credenciales</h5>
+                <p class="text-muted small mb-4">Puede simular el cambio de las credenciales de acceso administrativas.</p>
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">Nombre de Usuario Actual</label>
+                  <input type="text" class="form-control" value="cesc" readonly />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">Nueva Contraseña</label>
+                  <input type="password" class="form-control" placeholder="Ingrese nueva contraseña" id="cfg-new-pwd" />
+                </div>
+                <button class="btn btn-primary" id="btn-save-credentials">Guardar Cambios</button>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="panel-card h-100">
+                <h5 class="fw-bold mb-3"><i class="fas fa-sliders-h me-2"></i> Parámetros de la Escuela</h5>
+                <p class="text-muted small mb-4">Valores globales utilizados en los análisis de rentabilidad y proyecciones de BI.</p>
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">Costo de Suscripción Mensual ($)</label>
+                  <input type="number" class="form-control" value="18000" id="cfg-sub-fee" />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">Sede Principal de Operación</label>
+                  <select class="form-select">
+                    <option>San Juan 790 (Sede Central)</option>
+                    <option>Yerba Buena</option>
+                  </select>
+                </div>
+                <button class="btn btn-outline-primary" id="btn-save-cfg-params">Actualizar Parámetros</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+
+  <!-- ==========================================
+       3. LIBRERÍAS DE SOPORTE E INICIALIZACIÓN
+       ========================================== -->
+  <!-- ChartJS (Interactive Graphs) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- SheetJS (Excel Generation) -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+  <!-- jsPDF and AutoTable (PDF Generation) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+
+  <!-- Club Capelli Databases and Core Admin Logic -->
+  <script src="js/data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+
+</html>
