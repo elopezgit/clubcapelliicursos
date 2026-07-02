@@ -10,6 +10,38 @@ gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    // 0. Splash Particles
+    const splashParticles = document.getElementById('splash-particles');
+    if (splashParticles) {
+        for (let i = 0; i < 20; i++) {
+            const p = document.createElement('div');
+            p.className = 'splash-particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.width = (2 + Math.random() * 6) + 'px';
+            p.style.height = p.style.width;
+            p.style.animationDuration = (8 + Math.random() * 12) + 's';
+            p.style.animationDelay = (Math.random() * 10) + 's';
+            splashParticles.appendChild(p);
+        }
+    }
+
+    // 0. Splash Screen Animation
+    const splash = document.getElementById('splash-screen');
+    if (splash) {
+        const tl = gsap.timeline({
+            onComplete: () => {
+                splash.classList.add('hidden');
+                setTimeout(() => splash.style.display = 'none', 600);
+            }
+        });
+        tl.from('.splash-logo', { scale: 0.5, opacity: 0, duration: 0.8, ease: 'back.out(1.7)' })
+          .from('.splash-title', { y: 30, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.4')
+          .from('.splash-subtitle', { y: 20, opacity: 0, duration: 0.5, ease: 'power3.out' }, '-=0.3')
+          .from('.splash-loader', { scaleX: 0, opacity: 0, duration: 0.4, ease: 'power2.out', transformOrigin: 'left center' }, '-=0.2')
+          .to({}, { duration: 1.2 }) // hold for loader animation
+          .to(splash, { opacity: 0, duration: 0.5, ease: 'power2.in' });
+    }
+
     // 1. Swiper Banner Initialization
     if(document.querySelector('.mySwiperBanner')) {
         const swiper = new Swiper('.mySwiperBanner', {

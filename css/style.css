@@ -768,3 +768,358 @@ footer.bg-dark a:hover {
   70% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(37, 211, 102, 0); }
   100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
 }
+
+/* ==========================================================================
+   SPLASH / LOADING SCREEN
+   ========================================================================== */
+#splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#splash-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.splash-logo {
+  width: 120px;
+  height: 120px;
+  filter: drop-shadow(0 0 30px rgba(242, 101, 34, 0.5));
+  animation: splashPulse 2s ease-in-out infinite;
+}
+
+.splash-title {
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1.8rem;
+  margin-top: 1.5rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #ffffff, var(--color-naranja));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.splash-subtitle {
+  color: #64748b;
+  font-size: 0.9rem;
+  font-weight: 400;
+  margin-top: 0.3rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.splash-loader {
+  margin-top: 2.5rem;
+  width: 200px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.splash-loader-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--color-naranja), #ff8a50);
+  border-radius: 4px;
+  animation: splashProgress 1.8s ease-in-out forwards;
+}
+
+@keyframes splashProgress {
+  0% { width: 0%; }
+  50% { width: 55%; }
+  85% { width: 85%; }
+  100% { width: 100%; }
+}
+
+@keyframes splashPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.9; }
+}
+
+/* ==========================================================================
+   TOAST NOTIFICATION SYSTEM
+   ========================================================================== */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 99998;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.toast-notification {
+  pointer-events: auto;
+  background: var(--color-blanco);
+  border: 1px solid var(--color-gris-medio);
+  border-radius: 16px;
+  padding: 16px 20px;
+  min-width: 320px;
+  max-width: 420px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transform: translateX(120%);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.toast-notification.show {
+  transform: translateX(0);
+}
+
+.toast-notification::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  border-radius: 4px 0 0 4px;
+}
+
+.toast-notification.success::before { background-color: #10b981; }
+.toast-notification.error::before { background-color: #ef4444; }
+.toast-notification.warning::before { background-color: #f59e0b; }
+.toast-notification.info::before { background-color: #3b82f6; }
+
+.toast-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.toast-notification.success .toast-icon { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+.toast-notification.error .toast-icon { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+.toast-notification.warning .toast-icon { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.toast-notification.info .toast-icon { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+
+.toast-content {
+  flex: 1;
+}
+
+.toast-content strong {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--color-negro);
+  margin-bottom: 2px;
+}
+
+.toast-content p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--color-texto-muted);
+  line-height: 1.4;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 2px;
+  transition: color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.toast-close:hover {
+  color: var(--color-negro);
+}
+
+/* ==========================================================================
+   CONFIRM MODAL CUSTOM
+   ========================================================================== */
+.modal-confirm-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin: 0 auto 1rem;
+}
+
+.modal-confirm-icon.warning {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.modal-confirm-icon.success {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.modal-confirm-icon.danger {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+/* ==========================================================================
+   ENHANCED MODERN UI EFFECTS
+   ========================================================================== */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Pulse ring for KPI cards */
+.kpi-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.kpi-card:hover::after {
+  opacity: 1;
+  box-shadow: inset 0 0 30px rgba(242, 101, 34, 0.03);
+}
+
+/* Enhanced table row hover */
+.saas-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.saas-table tbody tr:hover {
+  background-color: rgba(242, 101, 34, 0.03) !important;
+  transform: translateX(3px);
+}
+
+/* Section transition */
+.dashboard-view-panel {
+  animation: fadeSlideIn 0.4s ease;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced sidebar menu item hover */
+.menu-item a {
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-item a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--color-naranja);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.menu-item a:hover::after,
+.menu-item.active a::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Enhanced badge pulse */
+.badge-status.active {
+  animation: badgePulse 2s infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+}
+
+/* Progress bar entrance animation (fallback animation only) */
+@keyframes progressFill {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* Floating particles for splash */
+.splash-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.splash-particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: var(--color-naranja);
+  border-radius: 50%;
+  opacity: 0.15;
+  animation: particleFloat linear infinite;
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.15;
+  }
+  90% {
+    opacity: 0.15;
+  }
+  100% {
+    transform: translateY(-10vh) rotate(720deg);
+    opacity: 0;
+  }
+}

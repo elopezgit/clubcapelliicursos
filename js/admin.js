@@ -26,25 +26,175 @@ document.addEventListener("DOMContentLoaded", () => {
     let chartCursosInstance = null;
 
     // ==========================================
+    // SPLASH PARTICLES
+    // ==========================================
+    const splashParticles = document.getElementById('splash-particles');
+    if (splashParticles) {
+        for (let i = 0; i < 20; i++) {
+            const p = document.createElement('div');
+            p.className = 'splash-particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.width = (2 + Math.random() * 6) + 'px';
+            p.style.height = p.style.width;
+            p.style.animationDuration = (8 + Math.random() * 12) + 's';
+            p.style.animationDelay = (Math.random() * 10) + 's';
+            splashParticles.appendChild(p);
+        }
+    }
+
+    // ==========================================
+    // SPLASH SCREEN CONTROL
+    // ==========================================
+    function hideSplash() {
+        const splash = document.getElementById("splash-screen");
+        if (splash) {
+            splash.classList.add("hidden");
+            setTimeout(() => {
+                splash.style.display = "none";
+            }, 600);
+        }
+    }
+
+    // ==========================================
+    // ANIMATED COUNTER
+    // ==========================================
+    function animateCounter(elementId, targetValue, duration = 800) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+        const startValue = 0;
+        const startTime = performance.now();
+
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.round(startValue + (targetValue - startValue) * eased);
+            el.textContent = current;
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            } else {
+                el.textContent = targetValue;
+            }
+        }
+        requestAnimationFrame(update);
+    }
+
+    // ==========================================
+    // GSAP KPI CARD ENTRANCE
+    // ==========================================
+    function animateKpiCards() {
+        if (typeof gsap === 'undefined') return;
+        gsap.fromTo('.kpi-card',
+            { opacity: 0, y: 30, scale: 0.95 },
+            {
+                opacity: 1, y: 0, scale: 1,
+                duration: 0.5,
+                stagger: 0.08,
+                ease: 'power3.out'
+            }
+        );
+    }
+
+    // ==========================================
+    // TOAST NOTIFICATION SYSTEM
+    // ==========================================
+    function showToast(title, message, type = "info", duration = 4000) {
+        const container = document.getElementById("toast-container");
+        if (!container) return;
+
+        const icons = {
+            success: "fa-check-circle",
+            error: "fa-times-circle",
+            warning: "fa-exclamation-triangle",
+            info: "fa-info-circle"
+        };
+
+        const toast = document.createElement("div");
+        toast.className = `toast-notification ${type}`;
+        toast.innerHTML = `
+            <div class="toast-icon"><i class="fas ${icons[type] || icons.info}"></i></div>
+            <div class="toast-content">
+                <strong>${title}</strong>
+                <p>${message}</p>
+            </div>
+            <button class="toast-close" onclick="this.parentElement.remove()">&times;</button>
+        `;
+
+        container.appendChild(toast);
+
+        // Trigger entrance animation
+        requestAnimationFrame(() => {
+            toast.classList.add("show");
+        });
+
+        // Auto remove
+        setTimeout(() => {
+            toast.classList.remove("show");
+            setTimeout(() => toast.remove(), 400);
+        }, duration);
+    }
+
+    // ==========================================
+    // CONFIRM MODAL
+    // ==========================================
+    function showConfirm(title, message, callback, iconType = "warning", confirmText = "Confirmar") {
+        const modalEl = document.getElementById("confirmModal");
+        if (!modalEl) return;
+
+        document.getElementById("confirm-title").textContent = title;
+        document.getElementById("confirm-message").textContent = message;
+
+        const icon = document.getElementById("confirm-icon");
+        icon.className = `modal-confirm-icon ${iconType}`;
+        const iconsMap = {
+            warning: "fa-exclamation-triangle",
+            success: "fa-check-circle",
+            danger: "fa-times-circle"
+        };
+        icon.innerHTML = `<i class="fas ${iconsMap[iconType] || iconsMap.warning}"></i>`;
+
+        const btn = document.getElementById("confirm-action-btn");
+        btn.textContent = confirmText;
+        btn.style.background = iconType === "danger" ? "#ef4444" : "var(--color-naranja)";
+
+        // Remove old listeners
+        const newBtn = btn.cloneNode(true);
+        btn.parentNode.replaceChild(newBtn, btn);
+
+        newBtn.addEventListener("click", () => {
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) modal.hide();
+            if (callback) callback();
+        });
+
+        const modal = new bootstrap.Modal(modalEl);
+        modal.show();
+    }
+
+    // ==========================================
     // 1. AUTHENTICATION CONTROLS
     // ==========================================
     const checkSession = () => {
         const session = localStorage.getItem("capelli_admin_session");
         
-        // Always remove the loading overlay immediately on page load
-        const loader = document.getElementById("loading-overlay");
-        if (loader) {
-            loader.style.opacity = 0;
-            setTimeout(() => loader.remove(), 300);
-        }
-        
         if (session) {
             loginContainer.style.display = "none";
             dashboardContainer.style.display = "flex";
+            // GSAP entrance for dashboard
+            if (typeof gsap !== 'undefined') {
+                gsap.fromTo(dashboardContainer,
+                    { opacity: 0, y: 20 },
+                    { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', delay: 0.2 }
+                );
+            }
+            // Hide splash after a brief moment for smooth transition
+            setTimeout(hideSplash, 800);
             initializeDashboard();
         } else {
             loginContainer.style.display = "flex";
             dashboardContainer.style.display = "none";
+            // Hide splash immediately for login screen
+            hideSplash();
         }
     };
 
@@ -57,16 +207,30 @@ document.addEventListener("DOMContentLoaded", () => {
             loginAlert.classList.add("d-none");
             localStorage.setItem("capelli_admin_session", "active_session_token");
             
-            // Brief login animation then enter dashboard
-            loginContainer.style.opacity = 0;
-            setTimeout(() => {
+            // Animated login transition
+            if (typeof gsap !== 'undefined') {
+                gsap.to(loginContainer, {
+                    opacity: 0, scale: 0.95, duration: 0.3, ease: 'power2.in',
+                    onComplete: () => {
+                        loginContainer.style.display = "none";
+                        dashboardContainer.style.display = "flex";
+                        gsap.fromTo(dashboardContainer,
+                            { opacity: 0, y: 20 },
+                            { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' }
+                        );
+                        initializeDashboard();
+                    }
+                });
+            } else {
                 loginContainer.style.display = "none";
                 dashboardContainer.style.display = "flex";
-                loginContainer.style.opacity = 1;
                 initializeDashboard();
-            }, 300);
+            }
         } else {
             loginAlert.classList.remove("d-none");
+            if (typeof gsap !== 'undefined') {
+                gsap.fromTo(loginAlert, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.3 });
+            }
         }
     });
 
@@ -93,9 +257,18 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
+        const targetPanel = document.getElementById(`section-${sectionId}`);
+
         viewPanels.forEach(panel => {
-            if (panel.id === `section-${sectionId}`) {
+            if (panel === targetPanel) {
                 panel.style.display = "block";
+                // GSAP entrance animation
+                if (typeof gsap !== 'undefined') {
+                    gsap.fromTo(panel,
+                        { opacity: 0, y: 20 },
+                        { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' }
+                    );
+                }
             } else {
                 panel.style.display = "none";
             }
@@ -135,6 +308,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const head = headers[sectionId] || headers.dashboard;
         sectionTitle.textContent = head.title;
         sectionSubtitle.textContent = head.subtitle;
+        if (typeof gsap !== 'undefined') {
+            gsap.fromTo(sectionTitle, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.3, ease: 'power2.out' });
+            gsap.fromTo(sectionSubtitle, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.3, delay: 0.1, ease: 'power2.out' });
+        }
     }
 
     // ==========================================
@@ -183,8 +360,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return d.getMonth() === 5 && d.getFullYear() === 2025; // Junio = 5
         }).length;
 
-        // ── KPI Row 1 ──
-        document.getElementById("kpi-total-alumnos").textContent = totalAlumnos;
+        // ── KPI Row 1 (with animated counters) ──
+        animateCounter("kpi-total-alumnos", totalAlumnos);
         document.getElementById("kpi-alumnos-trend").innerHTML = `<i class="fas fa-users"></i> ${totalAlumnos} registros totales`;
         
         if (document.getElementById("kpi-top-sede")) {
@@ -200,17 +377,20 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("kpi-low-curso-cnt").innerHTML = `<i class="fas fa-triangle-exclamation"></i> ${lowCurso.sales} alumno${lowCurso.sales !== 1 ? 's' : ''}`;
         }
 
-        // ── KPI Row 2 ──
-        if (document.getElementById("kpi-mayo-count")) document.getElementById("kpi-mayo-count").textContent = mayoCount;
-        if (document.getElementById("kpi-junio-count")) document.getElementById("kpi-junio-count").textContent = junioCount;
+        // ── KPI Row 2 (with animated counters) ──
+        animateCounter("kpi-mayo-count", mayoCount);
+        animateCounter("kpi-junio-count", junioCount);
         if (document.getElementById("kpi-yb-count")) {
-            document.getElementById("kpi-yb-count").textContent = ybCount;
+            animateCounter("kpi-yb-count", ybCount);
             document.getElementById("kpi-yb-pct").innerHTML = `<i class="fas fa-building"></i> ${totalAlumnos > 0 ? Math.round((ybCount/totalAlumnos)*100) : 0}% del total`;
         }
         if (document.getElementById("kpi-sj-count")) {
-            document.getElementById("kpi-sj-count").textContent = sjCount;
+            animateCounter("kpi-sj-count", sjCount);
             document.getElementById("kpi-sj-pct").innerHTML = `<i class="fas fa-building"></i> ${totalAlumnos > 0 ? Math.round((sjCount/totalAlumnos)*100) : 0}% del total`;
         }
+
+        // ── Animate KPI cards entrance ──
+        animateKpiCards();
 
         // ── Render Analytics Panels ──
         renderSedeDistribution(ybCount, sjCount, totalAlumnos);
@@ -907,16 +1087,16 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("btn-save-credentials").addEventListener("click", () => {
             const pwd = document.getElementById("cfg-new-pwd").value;
             if (pwd.trim()) {
-                alert("Simulación: Contraseña actualizada correctamente en base de datos.");
+                showToast("Configuración", "Contraseña actualizada correctamente en base de datos.", "success");
                 document.getElementById("cfg-new-pwd").value = "";
             } else {
-                alert("Ingrese una contraseña válida.");
+                showToast("Error", "Ingrese una contraseña válida.", "error");
             }
         });
 
         document.getElementById("btn-save-cfg-params").addEventListener("click", () => {
             const fee = document.getElementById("cfg-sub-fee").value;
-            alert(`Simulación: Parámetros del sistema actualizados. Cuota mensual fijada en $${fee}.`);
+            showToast("Configuración", `Parámetros del sistema actualizados. Cuota mensual fijada en $${fee}.`, "success");
         });
 
         // Fast export buttons
@@ -1283,7 +1463,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 } catch (e) {
                     console.error("Error generating report", e);
-                    alert("Se produjo un error al intentar generar el reporte.");
+                    showToast("Error", "Se produjo un error al intentar generar el reporte.", "error");
                 }
                 btnGenerateReport.innerHTML = originalText;
                 btnGenerateReport.disabled = false;
@@ -1347,7 +1527,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const jsonData = XLSX.utils.sheet_to_json(worksheet);
                 
                 if (jsonData.length === 0) {
-                    alert("El archivo cargado está vacío o no tiene un formato de Excel válido.");
+                    showToast("Archivo vacío", "El archivo cargado está vacío o no tiene un formato de Excel válido.", "error");
                     return;
                 }
                 
@@ -1356,6 +1536,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Show dynamic success feedback
                 successMsg.classList.remove('d-none');
                 dropzone.classList.add('d-none');
+                showToast("Excel cargado", `${jsonData.length} registros importados correctamente.`, "success");
                 
                 setTimeout(() => {
                     successMsg.classList.add('d-none');
@@ -1363,7 +1544,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }, 4000);
             } catch (err) {
                 console.error(err);
-                alert("Error al procesar el archivo Excel. Verifique que las columnas tengan títulos correctos.");
+                showToast("Error de proceso", "Error al procesar el archivo Excel. Verifique que las columnas tengan títulos correctos.", "error");
             }
         };
         reader.readAsArrayBuffer(file);
@@ -1635,11 +1816,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         badge.innerHTML = `<i class="fas fa-cloud me-1"></i> Google Sheets En Vivo`;
                     }
                     
-                    const currentLoader = document.getElementById("loading-overlay");
-                    if (currentLoader) {
-                        currentLoader.style.opacity = 0;
-                        setTimeout(() => currentLoader.remove(), 500);
-                    }
+                    showToast("Sincronizado", "Datos actualizados desde Google Sheets.", "success");
+                    hideSplash();
                 } else {
                     handleSyncError("Hoja vacía");
                 }
@@ -1692,11 +1870,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 badge.title = "Visualizando datos de respaldo por falta de conexión.";
             }
 
-            const currentLoader = document.getElementById("loading-overlay");
-            if (currentLoader) {
-                currentLoader.style.opacity = 0;
-                setTimeout(() => currentLoader.remove(), 500);
-            }
+            hideSplash();
         }
     }
 

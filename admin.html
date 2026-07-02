@@ -20,15 +20,36 @@
 </head>
 
 <body>
-  <!-- LOADING OVERLAY - starts hidden, shown only by JS when needed -->
-  <div id="loading-overlay" class="d-flex flex-column align-items-center justify-content-center" style="display:none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #ffffff; z-index: 9999; transition: opacity 0.5s ease;">
-    <div class="text-center">
-      <img src="assets/img/cc-circulo.png" alt="Club Capelli" height="90" class="animate-pulse mb-3" />
-      <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
-        <span class="visually-hidden">Cargando...</span>
+  <!-- SPLASH SCREEN -->
+  <div id="splash-screen">
+    <div class="splash-particles" id="splash-particles"></div>
+    <img src="assets/img/cc-circulo.png" alt="Club Capelli" class="splash-logo" id="splash-logo">
+    <div class="splash-title">Club Capelli</div>
+    <div class="splash-subtitle">Panel Administrativo BI</div>
+    <div class="splash-loader">
+      <div class="splash-loader-bar"></div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- CONFIRM MODAL -->
+  <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
+        <div class="modal-body text-center p-4">
+          <div class="modal-confirm-icon" id="confirm-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <h5 class="fw-bold mb-2" id="confirm-title">¿Está seguro?</h5>
+          <p class="text-muted small mb-4" id="confirm-message">Esta acción no se puede deshacer.</p>
+          <div class="d-flex gap-2 justify-content-center">
+            <button type="button" class="btn btn-light fw-bold px-4" data-bs-dismiss="modal" style="border-radius: 12px;">Cancelar</button>
+            <button type="button" class="btn fw-bold px-4" id="confirm-action-btn" style="border-radius: 12px; background: var(--color-naranja); color: white;">Confirmar</button>
+          </div>
+        </div>
       </div>
-      <h5 class="fw-bold mt-3 text-dark">Cargando panel...</h5>
-      <p class="text-muted small">Un momento por favor...</p>
     </div>
   </div>
 
@@ -621,6 +642,9 @@
   <!-- jsPDF and AutoTable (PDF Generation) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+
+  <!-- GSAP (Animations) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
   <!-- Club Capelli Databases and Core Admin Logic -->
   <script src="js/data.js"></script>
